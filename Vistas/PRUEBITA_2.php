@@ -12,7 +12,7 @@
 
       <?php
         require("../Controlador/Conexion.php");
-        $sql=("SELECT nombre,a.precio,cotizacionservicio_id FROM cotizaciones_etapas a INNER JOIN subservicios b ON a.etapas = b.id INNER JOIN cotizaciones_servicios c ON c.id_cotizacion = a.cotizacionservicio_id WHERE id_cotizacion= $idCot");
+        $sql=("SELECT nombre,a.precio,precio_ciclo,cotizacionservicio_id FROM cotizaciones_etapas a INNER JOIN subservicios b ON a.etapas = b.id INNER JOIN cotizaciones_servicios c ON c.id_cotizacion = a.cotizacionservicio_id WHERE id_cotizacion= $idCot");
   
         $queryEtapasInfo=mysqli_query($mysqli,$sql);
 
@@ -23,6 +23,7 @@
 
             echo "<th>Etapa</th>";
             echo "<th>Precio</th>";
+            echo "<th>Precio del ciclo</th>";
             echo "<th>Id de la cotizacion</th>";
           echo "</tr>";
           echo "</thead>";
@@ -37,6 +38,7 @@
               echo "<td>$arrayEtapasInfo[0]</td>";
               echo "<td>$arrayEtapasInfo[1]</td>";
               echo "<td>$arrayEtapasInfo[2]</td>";
+              echo "<td>$arrayEtapasInfo[3]</td>";
               
               
             

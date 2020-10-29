@@ -7,9 +7,6 @@ if (@!$_SESSION['nombre_contacto']) {
 }
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -50,12 +47,12 @@ if (@!$_SESSION['nombre_contacto']) {
         <main role="main" class="container">
             
 
-    <form method="post" class="bg-white  shadow p-5 rounded-lg" action="datos_registrados.php">
+    <form method="post" class="bg-white  shadow p-5 rounded-lg" action="../Controlador/Validacion_Fecha_2.php">
 
         <img src="../img/palmertec.png" class="img-fluid mx-auto d-block pb-5" alt="Palmertec">
 <!-- 
    <input type="hidden" name="tipo" value=" <?php /*echo $_GET["tipo"] */ ?>">
-    <input type="hidden" name="id_servicio" value="<?php /*echo $_GET["id_servicio"]*/ ?>">
+   
 
   
     <input type="hidden" name="instrumento" id="Instrumento" value="<?php /* echo $_GET["Instrumento"] */?>">
@@ -68,6 +65,8 @@ if (@!$_SESSION['nombre_contacto']) {
 
   <input type="hidden" name="total" value="<?php /*echo $_GET["total"] */?>">
         <input type="hidden" name="categoria_id" value="<?php /*echo $_GET["id"] */?>"> -->
+        
+       
 
 
         <h4 class="pb-3" style="color:#0c62bf">Datos del Equipo</h4>
@@ -75,7 +74,7 @@ if (@!$_SESSION['nombre_contacto']) {
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputEmail3" style="color:#808080"><h6>Equipo</h6></label>
-                <input type="text" name="equipo" class="form-control" id="equipo" value="<?php echo $_POST["equipo"];?>" readonly="" >
+                <input type="text" name="equipo" class="form-control" id="equipo" value="<?php echo $_POST["equipoCGnombre"];?>" readonly="" >
             </div>
             <div class="form-group col-md-6">
                 <label for="inputEmail3" style="color:#808080"><h6>Marca</h6></label>
@@ -98,9 +97,118 @@ if (@!$_SESSION['nombre_contacto']) {
                 <label for="inputEmail3" style="color:#808080"><h6>Identificacion</h6></label>
                 <input type="text" name="identificacion" class="form-control" id="identificacion" placeholder="" minlength="1" max="30" required>
             </div>
-        </div>
+            <?php
+                
+
+                try {
+                 require("../Controlador/Conexion.php");
+               
+          
+          
+          
+                 $sql=("SELECT * FROM agenda where class='event-warning'");
+            
+                  $query=mysqli_query($mysqli,$sql);
+          
+                 
+          
+                 while($arreglo=mysqli_fetch_array($query)){
+                    echo   "        <CENTER>
+          <MARQUEE WIDTH=70% BGCOLOR='white'>
+          <FONT FACE=arial COLOR=red SIZE=5>
+          El laboratorio ".$arreglo[1]." no dara servicio del  ".$arreglo[8]." al  ".$arreglo[9]."
+          </FONT>
+          </MARQUEE>
+          </CENTER> ";
+          
+                          
+                  }
+                
+                  echo "</select>";
+                } catch (mysqli\Driver\Exception\Exception $e) {
+                  die("Error: ".$e);
+                }
+                
+          
+                ?>
+          
+             
+    <br>
+            <div class="form-group col-md-6">
+                <label for="inputEmail3" style="color:#808080"><h6>Elige el proveedor adecuado</h6></label>
+                <br><select name="Proveedor" id="Proveedor" class="form-control" required>
+             </div>
+        
+
+                                                          
+            
+                              <?php
+                             $tipo=$_POST['tipo'];
+                  if ($tipo=="normal") {
+          
+                    try {
+                 require("../Controlador/Conexion.php");
+               
+          
+              $equipoCGnombre=$_POST['equipoCGnombre'];
+          
+                 $sql=("SELECT * FROM cotizaciones_servicios where magnitud='$equipoCGnombre'");
+            
+                  $query=mysqli_query($mysqli,$sql);
+          
+                 
+          
+                 while($arreglo=mysqli_fetch_array($query)){
+                    echo  "<option value='".$arreglo[1]."'>".$arreglo[1].
+                          "</option>";
+          
+                  }
+                
+                  echo "</select>";
+                } catch (mysqli\Driver\Exception\Exception $e) {
+                  die("Error: ".$e);
+                }
+                  }elseif ($tipo=="urgente") {
+                          try {
+                 require("../Controlador/Conexion.php");
+               
+          
+              $equipoCGnombre=$_POST['equipoCGnombre'];
+          
+                 $sql=("SELECT * FROM cotizaciones_servicios where magnitud='$equipoCGnombre'");
+            
+                  $query=mysqli_query($mysqli,$sql);
+          
+                 
+          
+                 while($arreglo=mysqli_fetch_array($query)){
+                    echo  "<option value='".$arreglo[1]."'>".$arreglo[1]. 
+                          "</option>";
+          
+                  }
+                
+                  echo "</select>";
+                } catch (mysqli\Driver\Exception\Exception $e) {
+                  die("Error: ".$e);
+                }
+                  }{
+          
+          
+                  }
+        
+                ?>
        
-      
+      </div>
+      </div>
+      <div class="row">
+      <div class="col-lg-12">
+        <button type= "button" class="btn btn-primary" id="agregarEtapa">Agregar Etapa</button>
+      </div>
+    </div>
+    <br>
+    <div class="row" id="ContenidoDinamicoParaEtapas">
+    </div>
+
         <div class="form-group">
             <div class="text-center">
                 <h3>
@@ -108,7 +216,7 @@ if (@!$_SESSION['nombre_contacto']) {
                     
                 </h3>
             </div>
-        </div>
+        </div><br><br>
         <div class="pull-right"><input class="btn btn-secondary" type="button" value="Atrás" onClick="history.go(-1);"></div>
     <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Btx0nQ5bF1Ckd6OFxA8cwB379Hfgla89bBQcqCWZdZfz5gHu1rtY9An_lYzuwoeQ0b_0gAfRafGyXxWE__B0fkTx9dzqmwkwofSLZFFuBK0XoLeGEKLCa9wCqSJs5ixi4WXaXHZarOiJoFQgNv-BAA" /></form>
 
@@ -133,13 +241,41 @@ if (@!$_SESSION['nombre_contacto']) {
             &copy; 2020   Palmertec - <a style="color:#0c62bf" href="/Home/Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="/lib/jquery/dist/jquery.js"></script>
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
-    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="/js/site.js?v=xLg3OBNLN5axpvxHCX-BMlgT_JPLXBVRSmlvwHdncrI"></script>
-    <script src="/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../lib/jquery/dist/jquery.js"></script>
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../js/site.js?v=xLg3OBNLN5axpvxHCX-BMlgT_JPLXBVRSmlvwHdncrI"></script>
+    <script src="../lib/jquery-ui/jquery-ui.min.js"></script>
     <script src="https://kit.fontawesome.com/37fd38107f.js" crossorigin="anonymous"></script>
-    
+    <script src="../js/servicios_equipo.js"></script>
+    <script>
+        etapasCliente(<?php echo $_POST["equipoCG"];?>);
+    </script>
+      
+      <script type="text/javascript">
+      var subservicioInfo = 
+  $(document).ready(function(){
+    $("#Categoria").change(function(){
+      $.get("../Controlador/subservicio.php","Categoria="+$("#Categoria").val(), function(data){
+        $("#Servicio").html(data);
+        console.log(data);
+      });
+    });
+    /*
+    $("#Servicio").change(function(){
+      $.get("../Controlador/subservicio2.php","Servicio="+$("#Servicio").val(), function(dataJson){
+        for (var i = 0; i < dataJson.length; i++) {
+          $('#Subservicio').append('<option value="' + dataJson[i].id + '">' + dataJson[i].nombre + '</option>');
+        }
+       // $("#Subservicio").html(data);
+        //console.log(dataJson);
+      });
+
+    });
+    */
+  });
+</script>
+
     
 </body>
 </html>

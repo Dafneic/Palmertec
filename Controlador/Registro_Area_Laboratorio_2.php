@@ -92,9 +92,11 @@
     # La lista de nombres; por defecto vacía
     $Subservicio = [];
     $Item_Precio_subservicio = [];
-    if (isset($_POST["Subservicio"]) && isset($_POST["Item_Precio_subservicio"])) {
+    $Item_ciclo_subservicio = [];
+    if (isset($_POST["Subservicio"]) && isset($_POST["Item_Precio_subservicio"]) && isset($_POST["Item_ciclo_subservicio"])) {
         $Subservicio = $_POST["Subservicio"];
         $Item_Precio_subservicio = $_POST["Item_Precio_subservicio"];
+        $Item_ciclo_subservicio = $_POST["Item_ciclo_subservicio"];
         // print_r($Subservicio);
         // print_r($precio);
 
@@ -103,7 +105,7 @@
          //   print "subservicio ".$Subservicio[$key]."\n";
        //     print "subservicio ".$Item_Precio_subservicio[$key]."\n";
            // print "El subservicio es ".$n." y el precio es ".$Item_Precio_subservicio[$key].", thanks\n";
-           mysqli_query($mysqli,"INSERT INTO cotizaciones_etapas  VALUES('','$Item_Precio_subservicio[$key]','$Subservicio[$key]','$pruebaaa')");
+           mysqli_query($mysqli,"INSERT INTO cotizaciones_etapas  VALUES('','$Item_Precio_subservicio[$key]','$Subservicio[$key]','$Item_ciclo_subservicio[$key]','$pruebaaa')");
         }
     }
 

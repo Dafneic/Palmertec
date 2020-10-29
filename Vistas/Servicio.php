@@ -60,13 +60,14 @@ if (@!$_SESSION['nombre_contacto']) {
  
           <center><h3>¿Qué tipo de equipo requieres?</h3></center>  
         <input type="hidden" name="tipo" value="<?php echo $_GET["tipo"] ?>">
-      
+        <input type="hidden" name="equipoCGnombre" id="equipoCGnombre">
 
-        <select name="equipo" id="equipo" class="select-css" required>
+        <select name="equipoCG" id="equipoCG" class="select-css" onchange="nombreEquipo(this.id)" required>
+        <option>--SELECCIONA--</option>
                 
 
                     <?php
-                $id=  $_GET['id']; 
+            
 
       try {
        require("../Controlador/Conexion.php");
@@ -79,9 +80,9 @@ if (@!$_SESSION['nombre_contacto']) {
        
 
        while($arreglo=mysqli_fetch_array($query)){
-          echo  "<option value= '".$arreglo[1]."'>".$arreglo[1].
+          echo  "<option value= '$arreglo[0]'>".$arreglo[1].
                 "</option>";
-
+               
                 
         }
       
@@ -137,12 +138,13 @@ if (@!$_SESSION['nombre_contacto']) {
             &copy; 2020   Palmertec - <a style="color:#0c62bf" href="/Home/Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="/lib/jquery/dist/jquery.js"></script>
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
-    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="/js/site.js?v=xLg3OBNLN5axpvxHCX-BMlgT_JPLXBVRSmlvwHdncrI"></script>
-    <script src="/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../lib/jquery/dist/jquery.js"></script>
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../js/site.js?v=xLg3OBNLN5axpvxHCX-BMlgT_JPLXBVRSmlvwHdncrI"></script>
+    <script src="../lib/jquery-ui/jquery-ui.min.js"></script>
     <script src="https://kit.fontawesome.com/37fd38107f.js" crossorigin="anonymous"></script>
+    <script src="../js/servicios_equipo.js"></script>
     
     
 </body>
