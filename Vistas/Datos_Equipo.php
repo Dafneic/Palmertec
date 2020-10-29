@@ -142,7 +142,7 @@ if (@!$_SESSION['nombre_contacto']) {
 
                                                           
             
-                              <?php
+             <?php
                              $tipo=$_POST['tipo'];
                   if ($tipo=="normal") {
           
@@ -187,6 +187,7 @@ if (@!$_SESSION['nombre_contacto']) {
           
                   }
                 
+                
                   echo "</select>";
                 } catch (mysqli\Driver\Exception\Exception $e) {
                   die("Error: ".$e);
@@ -208,6 +209,11 @@ if (@!$_SESSION['nombre_contacto']) {
     <br>
     <div class="row" id="ContenidoDinamicoParaEtapas">
     </div>
+    <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="inputEmail3" style="color:#808080"><h6>Precio</h6></label>
+                <input type="text" name="precioTotalCiclos" class="form-control" id="precioTotalCiclos" onchange="calcularSumaEtapaCiclo()" placeholder=""  readonly="" >
+            </div></div>
 
         <div class="form-group">
             <div class="text-center">
@@ -249,31 +255,29 @@ if (@!$_SESSION['nombre_contacto']) {
     <script src="https://kit.fontawesome.com/37fd38107f.js" crossorigin="anonymous"></script>
     <script src="../js/servicios_equipo.js"></script>
     <script>
-        etapasCliente(<?php echo $_POST["equipoCG"];?>);
-    </script>
-      
-      <script type="text/javascript">
-      var subservicioInfo = 
-  $(document).ready(function(){
-    $("#Categoria").change(function(){
-      $.get("../Controlador/subservicio.php","Categoria="+$("#Categoria").val(), function(data){
-        $("#Servicio").html(data);
-        console.log(data);
-      });
-    });
-    /*
-    $("#Servicio").change(function(){
-      $.get("../Controlador/subservicio2.php","Servicio="+$("#Servicio").val(), function(dataJson){
-        for (var i = 0; i < dataJson.length; i++) {
-          $('#Subservicio').append('<option value="' + dataJson[i].id + '">' + dataJson[i].nombre + '</option>');
-        }
-       // $("#Subservicio").html(data);
-        //console.log(dataJson);
-      });
+        etapasCliente('<?php echo $_POST["equipoCGnombre"];?>');
 
-    });
-    */
-  });
+        //var subservicioInfo = 
+        $(document).ready(function(){
+          $("#Categoria").change(function(){
+            $.get("../Controlador/subservicio.php","Categoria="+$("#Categoria").val(), function(data){
+              $("#Servicio").html(data);
+              console.log(data);
+            });
+          });
+          /*
+          $("#Servicio").change(function(){
+            $.get("../Controlador/subservicio2.php","Servicio="+$("#Servicio").val(), function(dataJson){
+              for (var i = 0; i < dataJson.length; i++) {
+                $('#Subservicio').append('<option value="' + dataJson[i].id + '">' + dataJson[i].nombre + '</option>');
+              }
+            // $("#Subservicio").html(data);
+              //console.log(dataJson);
+            });
+
+          });
+          */
+        });
 </script>
 
     

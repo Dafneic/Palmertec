@@ -1,7 +1,8 @@
 var subserviciosInfo = [];
-var subserviciosInfoTemp = [];
 var subserviciosInfoCount = 1;
 var total = 0;
+var itemEtapaCicloSeleccionada = [];
+var etapaCicloSeleccionadaSuma = 0;
 
 $(document).ready(function () {
 
@@ -30,7 +31,7 @@ $(document).ready(function () {
         contenidoDinamico += '<div  class="form-group" id="parent_div">';
         contenidoDinamico += '<div  class="row form-group child_div">';
         contenidoDinamico += '<label for="day" class="col-xs-2 control-label"></label>';
-        contenidoDinamico += '<div   class="col-xs-12 col-lg-6">';
+        contenidoDinamico += '<div   class="col-xs-12 col-lg-4">';
         contenidoDinamico += '<label for="form-input-col-xs-2" class="wb-inv">Elige las etapas necesarias:</label>';
         contenidoDinamico += '<div class="input-group" style="">';
         contenidoDinamico += '<?php foreach ($Subservicio as $Subservicio) { ?>' ;
@@ -44,7 +45,7 @@ $(document).ready(function () {
         contenidoDinamico += '<div class="col-xs-12 col-lg-3">';
         contenidoDinamico += '<label for="form-input-col-xs-3" class="wb-inv">Precio</label>';
         contenidoDinamico += '<div class="input-group">';
-        contenidoDinamico += '<input type="text" class="form-control" name="Item_Precio_subservicio[]" placeholder="Precio" onchange="calculaPrecio()" id="precio-subservicio-' + subserviciosInfoCount + '" />';
+        contenidoDinamico += '<input type="text" class="form-control" name="Item_Precio_subservicio[]" readonly=""  id="precio-subservicio-' + subserviciosInfoCount + '" />';
         contenidoDinamico += '<button class="btn btn-primary" id="btnRemovePriceSubSer-' + subserviciosInfoCount +'" onclick="eliminarPaso(' + subserviciosInfoCount + ')">-</button>';
         contenidoDinamico += '</div>';
         contenidoDinamico += '</div>';
@@ -52,18 +53,16 @@ $(document).ready(function () {
         contenidoDinamico += '<div class="col-xs-12 col-lg-3" id="cicloContenedor-' + subserviciosInfoCount +'" style="display:none;">';
         contenidoDinamico += '<label for="form-input-col-xs-3" class="wb-inv">Precio de ciclo</label>';
         contenidoDinamico += '<div class="input-group">';
-        contenidoDinamico += '<input type="text" class="form-control" name="Item_ciclo_subservicio[]" placeholder="Ciclo" onchange="calculaPrecio()" id="ciclo-subservicio-' + subserviciosInfoCount + '" />';
+        contenidoDinamico += '<input type="text" class="form-control" name="Item_ciclo_subservicio[]" readonly=""  id="ciclo-subservicio-' + subserviciosInfoCount + '" />';      
+        contenidoDinamico += '</div>';
+        contenidoDinamico += '</div>';
 
-        contenidoDinamico += '<div class="col-xs-12 col-lg-3" id="repetirContenedor-' + subserviciosInfoCount +'" style="display:none;">';
+        contenidoDinamico += '<div class="col-xs-12 col-lg-2" id="repetirContenedor-' + subserviciosInfoCount +'" style="display:none;">';
         contenidoDinamico += '<label for="form-input-col-xs-3" class="wb-inv">Cantidad</label>';
         contenidoDinamico += '<div class="input-group">';
-        contenidoDinamico += '<input type="text" class="form-control" name="Item_ciclo_repetir[]" placeholder="1,2,3.." onchange="calculaPrecio()" id="ciclo-repetir-' + subserviciosInfoCount + '" />';
-
-
+        var evento = "onchange='calcularSumaEtapaCiclo(\"combo-Subservicio-" + subserviciosInfoCount + "\")'";
+        contenidoDinamico += '<input type="text" class="form-control" name="Item_ciclo_repetir[]" placeholder="1,2,3.." ' + evento + ' id="ciclo-repetir-' + subserviciosInfoCount + '" />';
         contenidoDinamico += '<button class="btn btn-primary" onclick="eliminarPaso(' + subserviciosInfoCount + ')">-</button>';
-        contenidoDinamico += '</div>';
-        contenidoDinamico += '</div>';
-  
         contenidoDinamico += '</div>';
         contenidoDinamico += '</div>';
         contenidoDinamico += '</div>';
@@ -78,7 +77,12 @@ $(document).ready(function () {
   });
   
   function eliminarPaso(id) {
+    var etapaEliminadaValue = $('#combo-Subservicio-'+ id + ' option:selected').val();
     $('#subservicio-' + id).remove();
+    itemEtapaCicloSeleccionada = itemEtapaCicloSeleccionada.filter(function(item){
+      return item != etapaEliminadaValue;
+    });
+    calcularSumaEtapaCiclo('combo-Subservicio-'+ id);
     subserviciosInfoCount--;
   }
   
@@ -90,12 +94,14 @@ $(document).ready(function () {
     });
     $('#precio').val(sum.toFixed(2));
   
-    console.log(precio);
   }
 
   //CICLO
   function validarCiclo(idSel, contadorCiclo){
     var finalEtapa = $("#" + idSel+" option:selected").text();
+    var finalEtapaValue = $("#" + idSel+" option:selected").val();
+    $('#ciclo-repetir-' + contadorCiclo).attr('data-etapa',finalEtapaValue);
+    itemEtapaCicloSeleccionada.push(finalEtapaValue);
   
     if (finalEtapa.endsWith("(CO)") ||finalEtapa.endsWith("(CF)")) {
       $("#cicloContenedor-" + contadorCiclo).css('display', 'block');
@@ -107,9 +113,42 @@ $(document).ready(function () {
       $("#repetirContenedor-" + contadorCiclo).css('display', 'none');
       $("#btnRemovePriceSubSer-" + contadorCiclo).css('display', 'block');
     }
-  
+    var data = subserviciosInfo.filter(function(item){
+      return item.id == finalEtapaValue;
+    });
+    $("#precio-subservicio-" + contadorCiclo).val(data[0].precio);
+    $("#ciclo-subservicio-" + contadorCiclo).val(data[0].precio_ciclo);
+    calcularSumaEtapaCiclo(idSel);
   }
   
+  function calcularSumaEtapaCiclo(idEtapaSeleccionada) {
+    var etapaValue = $("#" + idEtapaSeleccionada).val();
+    var countItem = idEtapaSeleccionada.split('combo-Subservicio-');
+    var etapasSeleccionadas = subserviciosInfo.filter(function(item){
+      return itemEtapaCicloSeleccionada.includes(item.id);
+    });
+    console.log("etapasSeleccionadas", etapasSeleccionadas);
+
+    var totalSumaEtapas = 0;
+    etapasSeleccionadas.forEach(function(item, index){
+      var precios = parseFloat(item.precio);
+      totalSumaEtapas += precios; 
+
+      // var cicloValue = $("#ciclo-repetir-" + (index + 1) + "[data-etapa=" + etapaValue + "]").val();
+      var cicloValue = $("#ciclo-repetir-" + (index + 1)).val();
+      if (cicloValue != null && cicloValue != "") {
+        var cicloP = parseInt(cicloValue);
+        var cicloR = (item.precio_ciclo == "" || item.precio_ciclo == null) ? 0 : parseFloat(item.precio_ciclo);
+        totalSumaEtapas += cicloP * cicloR;
+        
+      }
+    });
+
+    console.log(totalSumaEtapas);
+    $('#precioTotalCiclos').val(totalSumaEtapas);
+
+
+  }
   
   //NOMBRE DEL EQUIPO EN FORMULARIO
   function nombreEquipo(id){
@@ -117,9 +156,9 @@ $(document).ready(function () {
     document.getElementById('equipoCGnombre').value = nombreEquipoSeleccionado;
   }
 
-  
-function etapasCliente(id_servicio) {
-  $.get("../Controlador/subservicio2.php", "Servicio=" + id_servicio , //Peticion
+//NOMBRES DE SUBSERVICIO  
+function etapasCliente(nombreProducto) {
+  $.get("../Controlador/subservicios_cotizaciones.php", "nombreProducto=" + nombreProducto , //Peticion
   function (equis) { //onSuccess
     var json = JSON.parse(equis);
     subserviciosInfo = json;
@@ -131,3 +170,15 @@ function etapasCliente(id_servicio) {
   });
 
 }
+
+function calculaPrecioCiclos() {
+  var sumCiclo = 0;
+  $('input[id^="precio-subservicio-"]').each(function (index, element) {
+    console.log($('#' + element.id).val());
+    sumCiclo += parseFloat($(element).val());
+  });
+  $('#precioTotalCiclos').val(sumCiclo.toFixed(2));
+
+  console.log(precioTotalCiclos);
+}
+
