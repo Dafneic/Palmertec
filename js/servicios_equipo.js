@@ -1,9 +1,10 @@
+var subserviciosInfo = [];
+var subserviciosInfoTemp = [];
+var subserviciosInfoCount = 1;
+var total = 0;
+
 $(document).ready(function () {
 
-  var subserviciosInfo = [];
-  var subserviciosInfoTemp = [];
-  var subserviciosInfoCount = 1;
-  var total = 0;
   $("#Servicio").change(function () { //Evento onchange
 
     $.get("../Controlador/subservicio.php", "Servicio=" + $("#Servicio").val(), //Peticion
@@ -115,3 +116,18 @@ $(document).ready(function () {
     var nombreEquipoSeleccionado = $("#" + id + " option:selected").text();
     document.getElementById('equipoCGnombre').value = nombreEquipoSeleccionado;
   }
+
+  
+function etapasCliente(id_servicio) {
+  $.get("../Controlador/subservicio2.php", "Servicio=" + id_servicio , //Peticion
+  function (equis) { //onSuccess
+    var json = JSON.parse(equis);
+    subserviciosInfo = json;
+    // for (var i = 0; i < json.length; i++) {
+    //   $('.select-Subservicio').append('<option value="' + json[i].id + '">' + json[i].nombre + '</option>');
+    // }
+    //console.log(dataJson);
+    
+  });
+
+}
