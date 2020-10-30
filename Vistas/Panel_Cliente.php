@@ -35,7 +35,8 @@ if (@!$_SESSION['nombre_contacto']) {
                               <li><a href="Reportes_cliente.php" style="font-weight: bold;">Reportes</a></li>
   <li><a href="servicios_realizados_c.php" style="font-weight: bold;">mis servicios realizados</a></li>
                                <li><a href="pedidos_cliente.php" style="font-weight: bold;">mis pedidos</a></li>
-                           <li><a href="Carrito.php" style="font-weight: bold;">Carrito</a></li>
+                           <li><a href="Carrito.php" style="font-weight: bold;">Carrito de calibraciones</a></li>
+                           <li><a href="Carrito_2.php" style="font-weight: bold;">Carrito de servicios</a></li>
                    <li ><a href="../Controlador/Logut.php" style="font-weight: bold;">Cerrar sesión</a></li>
 
 

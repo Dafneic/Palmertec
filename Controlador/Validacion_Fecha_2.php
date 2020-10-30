@@ -2,16 +2,33 @@
   echo "<p>Cargando...</p>";
 ?>
 
-<form method="POST" action="../Vistas/Datos_Equipo.php" style="display:none;">
+<!-- <form method="POST" action="../Vistas/Datos_Equipo.php" style="display:none;">
+  <input type="hidden" name="Proveedor" value=" <?php/* echo $_POST['Proveedor'];*/ ?>" >
+  <input type="hidden" name="tipo" value="<?php /*echo $_POST['tipo']; */?>" >
+  <input type="hidden" name="equipo" value="<?php /*echo $_POST['equipo'];*/ ?>" >
+  <input type="hidden" name="equipoCGnombre" value="<?php /*echo $_POST['equipo'];*/ ?>" >
+  <input type="hidden" name="marca" value="<?php /*echo $_POST['marca']; */?>" >
+  <input type="hidden" name="modelo" value="<?php /*echo $_POST['modelo']; */?>" >
+  <input type="hidden" name="serie" value="<?php /*echo $_POST['serie']; */?>" >
+  <input type="hidden" name="identificacion" value="<?php/* echo $_POST['identificacion'];*/ ?>" >
+  <input type="hidden" name="precioTotalCiclos" value="<?php/*- echo $_POST['precioTotalCiclos']; */?>" >
+  <button type="submit" name="postBack" id="postBack">Enviar<button>
+</form> -->
+
+<form method="POST" action="../Vistas/datos_registrados_2.php" style="display:none;">
   <input type="hidden" name="Proveedor" value="<?php echo $_POST['Proveedor']; ?>" >
-  <input type="hidden" name="tipo" value="<?php echo $_POST['tipo']; ?>" >
   <input type="hidden" name="equipo" value="<?php echo $_POST['equipo']; ?>" >
   <input type="hidden" name="equipoCGnombre" value="<?php echo $_POST['equipo']; ?>" >
   <input type="hidden" name="marca" value="<?php echo $_POST['marca']; ?>" >
   <input type="hidden" name="modelo" value="<?php echo $_POST['modelo']; ?>" >
   <input type="hidden" name="serie" value="<?php echo $_POST['serie']; ?>" >
   <input type="hidden" name="identificacion" value="<?php echo $_POST['identificacion']; ?>" >
+  <!-- <input type="hidden" name="Subservicio[]" value="<?php /*echo $_POST['Subservicio[]']; */?>" >
+  <input type="hidden" name="Item_Precio_subservicio[]" value="<?php /*echo $_POST['Item_Precio_subservicio']; */?>" >
+  <input type="hidden" name="Item_ciclo_subservicio[]" value="<?php /*echo $_POST['Item_ciclo_subservicio'];*/ ?>" >
+  <input type="hidden" name="Item_ciclo_repetir[]" value="<?php /*echo $_POST['Item_ciclo_repetir']; */?>" > -->
   <input type="hidden" name="precioTotalCiclos" value="<?php echo $_POST['precioTotalCiclos']; ?>" >
+  <input type="hidden" name="agregar" value="agregar" > 
   <button type="submit" name="postBack" id="postBack">Enviar<button>
 </form>
 
@@ -74,6 +91,9 @@ if (isset($_POST["Subservicio"]) && isset($_POST["Item_Precio_subservicio"])
           } else {
             // echo "<script>location.href='../Vistas/Datos_instrumento.php?Proveedor=$Proveedor&tipo=$tipo&precio=$precio&Cantidad=$cantidad&total=$total&instrumento=$instrumento&id_servicio=$id_servicio'</script>";
             // echo "<script>location.href='../Vistas/Datos_instrumento.php?Proveedor=$Proveedor&tipo=$tipo&precio=$precio&Cantidad=$cantidad&total=$total&instrumento=$instrumento'</script>";
+            echo "<script>location.href='../Vistas/datos_registrados_2.php'</script>";
+
+
 
             echo '<script>document.getElementById("postBack").click();</script> ';
           }
@@ -82,6 +102,10 @@ if (isset($_POST["Subservicio"]) && isset($_POST["Item_Precio_subservicio"])
         // echo "<script>location.href='../Vistas/Datos_instrumento.php?Proveedor=$Proveedor&tipo=$tipo&precio=$precio&Cantidad=$cantidad&total=$total&instrumento=$instrumento&id_servicio=$id_servicio'</script>";
         // echo "<script>location.href='../Vistas/Datos_instrumento.php?Proveedor=$Proveedor&tipo=$tipo&precio=$precio&Cantidad=$cantidad&total=$total&instrumento=$instrumento'</script>";
         echo '<script>document.getElementById("postBack").click();</script> ';
+        echo "<script>location.href='../Vistas/datos_registrados_2.php'</script>";
+
+
+
       }
     } else {
       echo '<script>alert("El proveedor no tiene personal disponible");location.href="../Vistas/Panel_Cliente.php";</script> ';
