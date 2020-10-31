@@ -28,12 +28,12 @@ $id_cliente=$_SESSION['id_cliente'];
 
 if(isset($_POST['agregar']))
 {
-    if(isset($_SESSION['add_carro']))
+    if(isset($_SESSION['add_carro_servicio']))
     {
-        $item_array_id_cart = array_column($_SESSION['add_carro'],'item_identificacion');
+        $item_array_id_cart = array_column($_SESSION['add_carro_servicio'],'item_identificacion');
         if(!in_array($_GET['identificacion'],$item_array_id_cart))
         {
-            $count = count($_SESSION['add_carro']);
+            $count = count($_SESSION['add_carro_servicio']);
             $item_array = array(
                     'item_id'        =>$_GET['instrumento'],
                     'item_Proveedor'    =>$_POST['Proveedor'],
@@ -44,7 +44,7 @@ if(isset($_POST['agregar']))
                     'item_precioTotalCiclos'  =>$_POST['precioTotalCiclos'],
             );
 
-            $_SESSION['add_carro'][$count] = $item_array;
+            $_SESSION['add_carro_servicio'][$count] = $item_array;
                echo '<script>alert("Servicio agregado!");</script>';
  echo '<script>window.location="Carrito_2.php";</script>';
         }else
@@ -56,19 +56,15 @@ if(isset($_POST['agregar']))
         {
             $item_array = array(
                 'item_id'        =>$_GET['instrumento'],
-                    'item_proveedor'    =>$_POST['proveedor'],
-                    'item_cantidad'    =>$_POST['cantidad'],
-                        'item_marca'    =>$_POST['marca'],
-                    'item_modelo'    =>$_POST['modelo'],
-                    'item_alcance'  =>$_POST['alcance'],
-                    'item_puntosc'    =>$_POST['puntosc'],
-                        'item_identificacion'    =>$_POST['identificacion'],
-                    'item_precio'    =>$_POST['precio'],
-                    'item_total'  =>$_POST['total'],
-                           'item_servicio'  =>$_POST['id_servicio'],
+                'item_Proveedor'    =>$_POST['Proveedor'],
+                    'item_marca'    =>$_POST['marca'],
+                'item_modelo'    =>$_POST['modelo'],
+                    'item_identificacion'    =>$_POST['identificacion'],
+                'item_precio'    =>$_POST['precio'],
+                'item_precioTotalCiclos'  =>$_POST['precioTotalCiclos'],
             );
 
-            $_SESSION['add_carro'][0] = $item_array;
+            $_SESSION['add_carro_servicio'][0] = $item_array;
 
         }
 }
@@ -76,11 +72,11 @@ if(isset($_GET['action']))
 {
     if($_GET['action']=='delete')
     {
-        foreach ($_SESSION['add_carro'] AS $key => $value)
+        foreach ($_SESSION['add_carro_servicio'] AS $key => $value)
         {
             if($value['item_identificacion'] == $_GET['identificacion'])
             {
-                unset($_SESSION['add_carro'][$key]);
+                unset($_SESSION['add_carro_servicio'][$key]);
                 echo '<script>alert("El servicio Fue Eliminado!");</script>';
                  echo '<script>window.location="Carrito_2.php";</script>';
              
@@ -163,10 +159,10 @@ if(isset($_GET['action']))
             </tr>
 
             <?php
-            if(!empty($_SESSION['add_carro']))
+            if(!empty($_SESSION['add_carro_servicio']))
             {
                 $total = 0;
-                foreach ($_SESSION['add_carro'] AS $key => $value)
+                foreach ($_SESSION['add_carro_servicio'] AS $key => $value)
                 {
                  ?>
                     <tbody align="center">
@@ -185,7 +181,9 @@ if(isset($_GET['action']))
             </tr>
            <?php
            //METER CONTADOR
-                    $total = $total + ($value['item_cantidad']  * $value['item_precio']);
+                 $var = $value['item_precioTotalCiclos'];
+                 $valorToTal = floatval($var);
+                 $total +=$valorToTal ;
                 }
            ?>
             <tr>
@@ -208,7 +206,7 @@ if(isset($_GET['action']))
             ?>
 
         </table>
-        <?php  if(!empty($_SESSION['add_carro']))
+        <?php  if(!empty($_SESSION['add_carro_servicio']))
             {  ?>
   <div class="form-row">
               <div class="form-group col-md-6">
@@ -261,7 +259,7 @@ if(isset($_GET['action']))
           onApprove: function(data, actions) {
           return actions.order.capture().then(function(details) {
     if (details.status == 'COMPLETED') {
-            window.location="../Controlador/Pedido_realizado.php";
+            window.location="../Controlador/#";
         }
           });
         }

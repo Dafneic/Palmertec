@@ -10,10 +10,10 @@ if (@!$_SESSION['nombre_contacto']) {
 <?php
 
 if (isset($_POST['agregar'])) {
-    if (isset($_SESSION['add_carro'])) {
-        $item_array_id_cart = array_column($_SESSION['add_carro'], 'item_identificacion');
+    if (isset($_SESSION['add_carro_servicio'])) {
+        $item_array_id_cart = array_column($_SESSION['add_carro_servicio'], 'item_identificacion');
         if (!in_array($_POST['identificacion'], $item_array_id_cart)) {
-            $count = count($_SESSION['add_carro']);
+            $count = count($_SESSION['add_carro_servicio']);
             $item_array = array(
                 'item_id'        => $_POST['equipo'],
                 'item_proveedor'    => $_POST['Proveedor'],
@@ -30,7 +30,7 @@ if (isset($_POST['agregar'])) {
 
             );
 
-            $_SESSION['add_carro'][$count] = $item_array;
+            $_SESSION['add_carro_servicio'][$count] = $item_array;
             echo '<script>alert("Servicio agregado!");</script>';
             // echo '<script>window.location="Carrito_2.php";</script>';
         } else {
@@ -53,14 +53,14 @@ if (isset($_POST['agregar'])) {
             // 'Item_ciclo_repetir' => $_POST['Item_ciclo_repetir'],
         );
 
-        $_SESSION['add_carro'][0] = $item_array;
+        $_SESSION['add_carro_servicio'][0] = $item_array;
     }
 }
 if (isset($_GET['action'])) {
     if ($_GET['action'] == 'delete') {
-        foreach ($_SESSION['add_carro'] as $key => $value) {
+        foreach ($_SESSION['add_carro_servicio'] as $key => $value) {
             if ($value['item_identificacion'] == $_GET['identificacion']) {
-                unset($_SESSION['add_carro'][$key]);
+                unset($_SESSION['add_carro_servicio'][$key]);
                 echo '<script>alert("El servicio Fue Eliminado!");</script>';
             }
         }
@@ -89,85 +89,78 @@ if (isset($_GET['action'])) {
     <link href="https://kit-free.fontawesome.com/releases/latest/css/free-v4-font-face.min.css" media="all" rel="stylesheet">
     <link href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css" media="all" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AV_jAxBULbgjM6dFfvls8EPGLY2QItQu8X2WaMMDGnRPV_WJmwqcF54eI1yWzXyDwaCDWgCPfD4jBNwm&currency=MXN"></script>
 </head>
+<header style="background-color:#f1eeee ">
+    <nav class="navbar  navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <div align="left">
+                <img src="../img/palmertec.png" />
+            </div>
+            <input type="checkbox" id="btn-menu" />
+            <label class="icon-menu" for="btn-menu"></label>
+            <nav class="menu">
+                <ul>
+                    <li><a href="Panel_cliente.php" style="font-weight: bold;">Inicio</a></li>
+                    <li><a href="Carrito.php" style="font-weight: bold;">Carrito</a></li>
+                    <li><a href="../Controlador/Logut.php" style="font-weight: bold;">Cerrar sesión</a></li>
+                    <li><a href="https://www.facebook.com/PalmerTecMx"><i class="fab fa-facebook-f fa-2x fa-lg"></i></a></li>
+                    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Btx0nQ5bF1Ckd6OFxA8cwD7X6xdOAO3v2Ohmo2SCoXj4UAQnuL1DFq1YPvp2G2ofEL9-NUt33XQW-auyf7_E4c45ltwOCYLIomwhPCf71_2L3gLIWq4g72qRiT6ZE9h5mRmAluZhZmumZ-ke3lco9K0QqHSsR0H9p22XejQv92JJu1AjtIisHE6t8roYWzsHw">
+
+                </ul>
+            </nav>
+        </div>
+    </nav>
+</header>
+
 
 <body>
-    <script src="https://www.paypal.com/sdk/js?client-id=AV_jAxBULbgjM6dFfvls8EPGLY2QItQu8X2WaMMDGnRPV_WJmwqcF54eI1yWzXyDwaCDWgCPfD4jBNwm&currency=MXN"></script>
-    <header style="background-color:#f1eeee ">
-        <nav class="navbar  navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <div align="left">
-                    <img src="../img/palmertec.png" />
-                </div>
-                <input type="checkbox" id="btn-menu" />
-                <label class="icon-menu" for="btn-menu"></label>
-                <nav class="menu">
-                    <ul>
-                        <li><a href="Panel_cliente.php" style="font-weight: bold;">Inicio</a></li>
-                        <li><a href="Carrito_2.php" style="font-weight: bold;">Carrito</a></li>
-                        <li><a href="../Controlador/Logut.php" style="font-weight: bold;">Cerrar sesión</a></li>
-                        <li><a href="https://www.facebook.com/PalmerTecMx"><i class="fab fa-facebook-f fa-2x fa-lg"></i></a></li>
-                        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Btx0nQ5bF1Ckd6OFxA8cwD7X6xdOAO3v2Ohmo2SCoXj4UAQnuL1DFq1YPvp2G2ofEL9-NUt33XQW-auyf7_E4c45ltwOCYLIomwhPCf71_2L3gLIWq4g72qRiT6ZE9h5mRmAluZhZmumZ-ke3lco9K0QqHSsR0H9p22XejQv92JJu1AjtIisHE6t8roYWzsHw">
-
-                    </ul>
-                </nav>
-            </div>
-        </nav>
-    </header>
-
-
-    </head>
-
-    <body>
-
-        <main role="main" class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="my-2 p-2 bg-white rounded box-shadow box-style">
-                        <div id="home-box">
-                            <div class="content">
-
-
-
-
-
-
-                                <table class='table table-striped table-sm table-responsive-sm'>
-                                    <thead style='color: blue' background='gray' align="center">
-                                        <tr align="center">
-                                            <th>Proveedor</th>
-                                            <th>Equipo</th>
-                                            <th>Instrumento</th>
-                                            <th>Marca</th>
-                                            <th>Modelo</th>
-                                            <th>Serie</th>
-                                            <th>Identificación</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody align="center">
-                                        <td><?php echo $_POST["Proveedor"] ?></td>
-                                        <td><?php echo $_POST["equipo"] ?></td>
-                                        <td><?php echo $_POST["marca"] ?></td>
-                                        <td><?php echo $_POST["modelo"] ?></td>
-                                        <td><?php echo $_POST["serie"] ?></td>
-                                        <td><?php echo $_POST["identificacion"] ?></td>
-                                        <td><?php echo $_POST["precioTotalCiclos"] ?></td>
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="my-2 p-2 bg-white rounded box-shadow box-style">
+                    <div id="home-box">
+                        <div class="content">
+                            <table class='table table-striped table-sm table-responsive-sm'>
+                                <thead style='color: blue' background='gray' align="center">
+                                    <tr align="center">
+                                        <th>Proveedor</th>
+                                        <th>Equipo</th>
+                                        <th>Marca</th>
+                                        <th>Modelo</th>
+                                        <th>Serie</th>
+                                        <th>Identificación</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody align="center">
+                                    <?php
+                                    foreach ($_SESSION['add_carro_servicio'] as $key => $item) {
+                                    ?><tr>
+                                        <td><?php echo $item['item_proveedor']; ?></td>
+                                        <td><?php echo $item['item_id']; ?></td>
+                                        <td><?php echo $item['item_marca']; ?></td>
+                                        <td><?php echo $item['item_modelo']; ?></td>
+                                        <td><?php echo $item['item_serie']; ?></td>
+                                        <td><?php echo $item['item_identificacion']; ?></td>
+                                        <td><?php echo $item['item_precioTotalCiclos']; ?></td>
                                         <!-- <td><?php /* echo $_POST['combo-Subservicio-1'];*/ ?></td>
                                         <td><?php /*echo $_POST['precio-subservicio-1'];*/ ?></td>
                                         <td><?php/* echo $_POST['ciclo-subservicio-1']; */?></td>
                                         <td><?php/* echo $_POST['ciclo-repetir-1'];*/ ?></td> -->
                                         <td>
 
-                                            <form method="post" action="datos_registrados_2.php?action=add&identificacion=<?php echo $_POST["identificacion"] ?>">
 
-                                                <input type="hidden" name="Proveedor" value="<?php echo $_POST['Proveedor']; ?>">
-                                                <input type="hidden" name="equipo" value="<?php echo $_POST['equipo']; ?>">
-                                                <input type="hidden" name="marca" value="<?php echo $_POST['marca']; ?>">
-                                                <input type="hidden" name="modelo" value="<?php echo $_POST['modelo']; ?>">
-                                                <input type="hidden" name="serie" value="<?php echo $_POST['serie']; ?>">
-                                                <input type="hidden" name="identificacion" value="<?php echo $_POST['identificacion']; ?>">
-                                                <input type="hidden" name="precioTotalCiclos" value="<?php echo $_POST['precioTotalCiclos']; ?>">
+
+                                            <form method="post" action="Carrito_2.php?action=add&identificacion=<?php echo $item['item_identificacion']; ?>">
+
+                                                <input type="hidden" name="item_proveedor" value="<?php echo $item['item_proveedor']; ?>">
+                                                <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
+                                                <input type="hidden" name="item_marca" value="<?php echo $item['item_marca']; ?>">
+                                                <input type="hidden" name="item_modelo" value="<?php echo $item['item_modelo']; ?>">
+                                                <input type="hidden" name="item_serie" value="<?php echo $item['item_serie']; ?>">
+                                                <input type="hidden" name="item_identificacion" value="<?php echo $item['item_identificacion']; ?>">
+                                                <input type="hidden" name="item_precioTotalCiclos" value="<?php echo $item['item_precioTotalCiclos']; ?>">
                                                 <!-- <input type="hidden" name="Subservicio[]" value="<?php /*echo $_POST['combo-Subservicio-1']; */ ?>">
                                             <input type="hidden" name="Item_Precio_subservicio[]" value="<?php/* echo $_POST['precio-subservicio-1'];*/ ?>">
                                             <input type="hidden" name="Item_ciclo_subservicio[]" value="<?php /*echo $_POST['ciclo-subservicio-1'];*/ ?>">
@@ -175,49 +168,56 @@ if (isset($_GET['action'])) {
                                                 <input type="submit" name="agregar" style="margin-top:5px;" class="btn btn-success" value="Agregar al carrito" />
                                             </form>
                                         </td>
-                                    </tbody>
+                                        </tr>
+                                    <?php
+                                    } ?>
+                                </tbody>
 
-                                </table>
 
+                            </table>
+                            <div class="pull-right">
+                                <label>¿Deseas agregar otro servicio?</label><input class="btn btn-secondary" type="button" value="si" onClick="history.go(-2);">
                             </div>
+
                         </div>
                     </div>
-                </div><br>
-            </div>
-            <div class="pull-right">
-                <label>¿Deseas agregar otro servicio?</label><input class="btn btn-secondary" type="button" value="si" onClick="history.go(-7);"></div>
-        </main>
+
+                </div>
+            </div><br>
+        </div>
+
+    </main>
 
 
-        <br>
+    <br><br><br>
 
-        <footer class="border-top footer text-muted border-top-color" style="background-color: #ffffff">
+    <footer class="border-top footer text-muted border-top-color" style="background-color: #ffffff">
 
-            <div class="container gly " style="max-width: 26rem; ">
+        <div class="container gly " style="max-width: 26rem; ">
 
-                <h4>
-                    <i class="fa fa-facebook-square fa-1g" style="color:#0c62bf"> palmertec</i>
+            <h4>
+                <i class="fa fa-facebook-square fa-1g" style="color:#0c62bf"> palmertec</i>
 
-                    <i class="fa fa-whatsapp fa-1g" style="color:#0c62bf">
-                        5620974817
-                    </i>
-                    <i class="fas fa-phone-alt  fa-1g" style="color:#0c62bf"> 6841-4743</i>
-                </h4>
-            </div>
-            <div class="container gly " style="max-width: 18rem; color:#0c62bf ">
-                &copy; 2020 Palmertec - <a style="color:#0c62bf" href="/Home/Privacy">Privacy</a>
-            </div>
-        </footer>
-        <script src="/lib/jquery/dist/jquery.js"></script>
-        <script src="/lib/jquery/dist/jquery.min.js"></script>
-        <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="/js/site.js?v=xLg3OBNLN5axpvxHCX-BMlgT_JPLXBVRSmlvwHdncrI"></script>
-        <script src="/lib/jquery-ui/jquery-ui.min.js"></script>
-        <script src="https://kit.fontawesome.com/37fd38107f.js" crossorigin="anonymous"></script>
+                <i class="fa fa-whatsapp fa-1g" style="color:#0c62bf">
+                    5620974817
+                </i>
+                <i class="fas fa-phone-alt  fa-1g" style="color:#0c62bf"> 6841-4743</i>
+            </h4>
+        </div>
+        <div class="container gly " style="max-width: 18rem; color:#0c62bf ">
+            &copy; 2020 Palmertec - <a style="color:#0c62bf" href="/Home/Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="../lib/jquery/dist/jquery.js"></script>
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../js/site.js?v=xLg3OBNLN5axpvxHCX-BMlgT_JPLXBVRSmlvwHdncrI"></script>
+    <script src="../lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="https://kit.fontawesome.com/37fd38107f.js" crossorigin="anonymous"></script>
 
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
 
-    </body>
+</body>
 
 </html>

@@ -32,7 +32,7 @@ if (@!$_SESSION['nombre_contacto']) {
         <nav class="menu">
             <ul>
                 <li><a href="Panel_cliente.php" style="font-weight: bold;">Inicio</a></li>
-                                      <li><a href="Carrito.php" style="font-weight: bold;">Carrito</a></li>
+                                      <li><a href="Carrito_2.php" style="font-weight: bold;">Carrito</a></li>
                    <li ><a href="../Controlador/Logut.php" style="font-weight: bold;">Cerrar sesión</a></li>
 
 
