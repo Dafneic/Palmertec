@@ -104,11 +104,11 @@ if (@!$_SESSION['nombre_contacto']) {
             &copy; 2020   Palmertec - <a style="color:#0c62bf" href="/Home/Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="/lib/jquery/dist/jquery.js"></script>
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
-    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="/js/site.js?v=xLg3OBNLN5axpvxHCX-BMlgT_JPLXBVRSmlvwHdncrI"></script>
-    <script src="/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../lib/jquery/dist/jquery.js"></script>
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../js/site.js?v=xLg3OBNLN5axpvxHCX-BMlgT_JPLXBVRSmlvwHdncrI"></script>
+    <script src="../lib/jquery-ui/jquery-ui.min.js"></script>
     <script src="https://kit.fontawesome.com/37fd38107f.js" crossorigin="anonymous"></script>
     
     

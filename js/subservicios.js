@@ -18,11 +18,9 @@ $(document).ready(function () {
       
 
   });
-  $("#agregarEtapa").click(function () {
-    
+  $("#agregarEtapa").click(function () {    
     if (subserviciosInfoCount <= subserviciosInfo.length) {
-
-
+      $("#agregarEtapa").prop("disabled", true);
 
       var contenidoDinamico = '<div class="col-lg-12" id="subservicio-' + subserviciosInfoCount + '">';
       contenidoDinamico += '<div  class="form-group" id="parent_div">';
@@ -88,15 +86,23 @@ function eliminarPaso(id) {
 
 
 function validarCiclo(idSel, contadorCiclo){
-  var finalEtapa = $("#" + idSel+" option:selected").text();
+  var etapaValue = $("#" + idSel+" option:selected").val();
+  if (etapaValue == "") {
+    $("#agregarEtapa").prop("disabled", true);
+    return;
+  }
 
+  var finalEtapa = $("#" + idSel+" option:selected").text();
   if (finalEtapa.endsWith("(CO)") ||finalEtapa.endsWith("(CF)")) {
     $("#cicloContenedor-" + contadorCiclo).css('display', 'block');
     $("#btnRemovePriceSubSer-" + contadorCiclo).css('display', 'none');
+
+    if ($("#ciclo-repetir-" + contadorCiclo).val() != "") {
+      $("#agregarEtapa").prop("disabled", false);
+    }
   }
   else {
     $("#cicloContenedor-" + contadorCiclo).css('display', 'none');
     $("#btnRemovePriceSubSer-" + contadorCiclo).css('display', 'block');
   }
-
 }

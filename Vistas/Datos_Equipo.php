@@ -49,7 +49,7 @@ if (@!$_SESSION['nombre_contacto']) {
 
 
       <form method="post" class="bg-white  shadow p-5 rounded-lg" action="../Controlador/Validacion_Fecha_2.php">
-        <input type="hidden" name="tipo" value="<?php echo $_POST['tipo'] ?>">
+        <input type="hidden" name="tipo" id="tipos" name="tipos" value="<?php echo $_POST["tipo"] ?>">
         <img src="../img/palmertec.png" class="img-fluid mx-auto d-block pb-5" alt="Palmertec">
         <!-- 
    
@@ -207,14 +207,13 @@ if (@!$_SESSION['nombre_contacto']) {
 
         </div>
   </div>
+  <div class="row" id="ContenidoDinamicoParaEtapas"></div>
   <div class="row">
     <div class="col-lg-12">
-      <button type="button" class="btn btn-primary" id="agregarEtapa">Agregar Etapa</button>
+      <button type="button" class="btn btn-primary pull-right" id="agregarEtapa">Agregar Etapa</button>
     </div>
   </div>
   <br>
-  <div class="row" id="ContenidoDinamicoParaEtapas">
-  </div>
   <div class="form-row">
     <div class="form-group col-md-4">
       <label for="inputEmail3" style="color:#808080">

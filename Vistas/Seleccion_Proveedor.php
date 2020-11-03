@@ -190,7 +190,6 @@ El laboratorio ".$arreglo[1]." no dara servicio del  ".$arreglo[8]." al  ".$arre
               
                 <input type="hidden" name="total" class="form-control" id="total" placeholder="" required>
             </div>
-
     </div>
       
         <div class="form-group">
